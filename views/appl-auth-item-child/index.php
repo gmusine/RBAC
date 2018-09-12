@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\ApplAuthItemChildSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Appl Auth Item Children');
+$this->title = Yii::t('app', 'Application Item Children');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="appl-auth-item-child-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Appl Auth Item Child'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create an Item Child'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

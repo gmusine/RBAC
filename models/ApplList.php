@@ -87,11 +87,11 @@ class ApplList extends \yii\db\ActiveRecord
     {
         if($this->isNewRecord)
         {
-            $this->date_created = Date("Y/m/d");
+            $this->date_created = date("Y/m/d H:i:s");
         }
         else
         {
-            $this->date_modified = date("Y/m/d");
+            $this->date_modified = date("Y/m/d H:i:s");
         }
         if (empty($this->fk_study))
         {

@@ -31,4 +31,10 @@ class HelloController extends Controller
 
         return ExitCode::OK;
     }
+    
+    public function actionGetList()
+    {
+        $list = \app\models\ApplAuthItem::getChildList(true);
+        var_dump($list);
+    }
 }

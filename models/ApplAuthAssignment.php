@@ -32,8 +32,8 @@ class ApplAuthAssignment extends \yii\db\ActiveRecord
     {
         return [
             [['item_name', 'user_id'], 'required'],
-            [['created_at', 'fk_app_list'], 'integer'],
-            [['item_name', 'user_id'], 'string', 'max' => 64],
+            [['fk_app_list'], 'integer'],
+            [['item_name', 'created_at', 'user_id'], 'string', 'max' => 64],
             [['item_name', 'user_id'], 'unique', 'targetAttribute' => ['item_name', 'user_id']],
             [['item_name'], 'exist', 'skipOnError' => true, 'targetClass' => ApplAuthItem::className(), 'targetAttribute' => ['item_name' => 'name']],
             [['fk_app_list'], 'exist', 'skipOnError' => true, 'targetClass' => ApplList::className(), 'targetAttribute' => ['fk_app_list' => 'id']],
@@ -71,7 +71,7 @@ class ApplAuthAssignment extends \yii\db\ActiveRecord
     public function beforeSave($insert) 
     {
         if($this-> isNewRecord){
-            $this->created_at = time();
+            $this->created_at = date("Y-m-d H:i:s");
         }
       /*  if (empty($this->rule_name))
             {

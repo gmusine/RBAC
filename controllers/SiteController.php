@@ -7,9 +7,10 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\EntryFrom;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\ApplListSearch;
+
 
 class SiteController extends Controller
 {
@@ -62,7 +63,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        return $this->actionDashboard();
+       // return $this->render('dashboard');
     }
 
     /**
@@ -143,4 +145,16 @@ class SiteController extends Controller
             return $this->render('entry', ['model'=>$model]);
             }
         }
+    public function actionDashboard(){
+        $searchModel = new ApplListSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        $content =  $this->renderAjax('/appl-list/index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+        return $this->render('dashboard', [
+            'content' => $content
+        ]);
+    }
 }

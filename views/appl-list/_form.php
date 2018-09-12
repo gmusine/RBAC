@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="appl-list-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options'=>['id'=>'create-appl-list']]); ?>
 
     <?= $form->field($model, 'app_name')->textInput(['maxlength' => true]) ?>
 
@@ -20,17 +20,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'owner')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'fk_study')->textInput() ?>
-
-    <!--<?= $form->field($model, 'date_created')->textInput() ?>
-
-    <?= $form->field($model, 'date_modified')->textInput() ?> -->
-
-    <?= $form->field($model, 'feature_image')->textInput() ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->listBox([1 => 'Active', 0 => 'Inactive'], ['prompt' => 'Select Status', 'size' => 1])?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

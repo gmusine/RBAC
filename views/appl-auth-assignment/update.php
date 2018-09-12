@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\ApplAuthAssignment */
 
-$this->title = Yii::t('app', 'Update Appl Auth Assignment: ' . $model->item_name, [
+$this->title = Yii::t('app', 'Update Role or Permission Assignment: ' . $model->item_name, [
     'nameAttribute' => '' . $model->item_name,
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Appl Auth Assignments'), 'url' => ['index']];

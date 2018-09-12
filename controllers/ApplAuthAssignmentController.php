@@ -38,10 +38,17 @@ class ApplAuthAssignmentController extends Controller
         $searchModel = new ApplAuthAssignmentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        if(Yii::$app->request->isAjax) {
+            return \yii\helpers\Json::encode($this->renderAjax('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]));
+        } else {
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
     }
 
     /**
@@ -70,10 +77,18 @@ class ApplAuthAssignmentController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'item_name' => $model->item_name, 'user_id' => $model->user_id]);
         }
-
-        return $this->render('create', [
+        if (Yii::$app->request->isAjax)
+        {
+        return $this->renderAjax('create', [
             'model' => $model,
         ]);
+        }
+        else
+        {
+            return $this->render('create',[
+                'model'=> $model,
+            ]);
+        }
     }
 
     /**

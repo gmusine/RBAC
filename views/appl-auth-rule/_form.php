@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="appl-auth-rule-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['otions'=>['id'=>'create-appl-rule']]); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

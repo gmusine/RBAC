@@ -27,4 +27,3 @@ use yii\helpers\ArrayHelper;
 </div>
 
 
-array('template' => '<li>{input} {label}</li>', 'separator' => '', 'checkAll' => 'Alle rubrieken'));

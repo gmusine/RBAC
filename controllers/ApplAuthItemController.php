@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\ApplAuthItem;
+use app\models\ApplAuthItemChild;
 use app\models\ApplAuthItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -33,15 +34,22 @@ class ApplAuthItemController extends Controller
      * Lists all ApplAuthItem models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($type = null)
     {
         $searchModel = new ApplAuthItemSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $type);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        if(Yii::$app->request->isAjax) {
+            return \yii\helpers\Json::encode($this->renderAjax('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]));
+        } else {
+            return $this->renderAjax('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
     }
 
     /**
@@ -65,14 +73,25 @@ class ApplAuthItemController extends Controller
     public function actionCreate()
     {
         $model = new ApplAuthItem();
+        
+        //$childModel = new ApplAuthItemChild();
+         
+        
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->name]);
+            //return $this->redirect(['/appl-auth-item/index', 'id' => $model->name]);
+            return $this->redirect(Yii::$app->request->referrer);
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        if(Yii::$app->request->isAjax) {
+            return $this->renderAjax('create', [
+                'model' => $model,
+            ]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**

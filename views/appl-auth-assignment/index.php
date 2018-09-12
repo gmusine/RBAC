@@ -2,12 +2,13 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ApplAuthAssignmentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Appl Auth Assignments');
+$this->title = Yii::t('app', 'Role or Permission Assignments');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="appl-auth-assignment-index">
@@ -16,7 +17,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Appl Auth Assignment'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::button('Assign Role or Permission',[
+            'value'=> Url::to('/index.php?r=appl-auth-assignment%2Fcreate'),
+            'type'=> 'button',
+            'class'=> 'btn btn-xs btn-primary showModalButton',
+            'title'=> 'Assign new Role or Permission',
+       ])?>
     </p>
 
     <?= GridView::widget([

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ApplListSearch */
@@ -16,7 +17,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create an Application'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?=Html::button('Add a New Application', [
+            'value' => Url::to(['appl-list/create']),
+            'type'=>'button', 
+            'class' => 'btn btn-xs btn-primary showModalButton',
+            'title' => 'Add New Application'
+        ])?>
     </p>
 
     <?= GridView::widget([
@@ -32,8 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'owner',
             //'url:url',
             //'fk_study',
-            //'date_created',
-            //'date_modified',
+            'date_created',
+            'date_modified',
             //'feature_image',
             //'status',
 

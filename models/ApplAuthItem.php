@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use yii\helpers\ArrayHelper;
 
 use Yii;
 
@@ -26,6 +27,8 @@ use Yii;
  */
 class ApplAuthItem extends \yii\db\ActiveRecord
 {
+    
+    public $children;
     /**
      * {@inheritdoc}
      */
@@ -41,9 +44,10 @@ class ApplAuthItem extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'type'], 'required'],
-            [['type', 'created_at', 'updated_at', 'fk_app_list'], 'integer'],
-            [['description', 'data'], 'string'],
+            [['type', 'fk_app_list'], 'integer'],
+            [['description', 'data', 'updated_at', 'created_at'], 'string'],
             [['name', 'rule_name'], 'string', 'max' => 64],
+            [['children', 'updated_at', 'created_at'], 'safe'],
             [['name'], 'unique'],
             [['rule_name'], 'exist', 'skipOnError' => true, 'targetClass' => ApplAuthRule::className(), 'targetAttribute' => ['rule_name' => 'name']],
             [['fk_app_list'], 'exist', 'skipOnError' => true, 'targetClass' => ApplList::className(), 'targetAttribute' => ['fk_app_list' => 'id']],
@@ -125,14 +129,68 @@ class ApplAuthItem extends \yii\db\ActiveRecord
     
     public function beforeSave($insert) 
     {
-        if ($this->isNewRecord) {
-            $this->created_at = date("Y/m/d H:i:s");
-        } else {
-            $this->updated_at = time();
+        if ($this->isNewRecord) 
+            {
+            $this->created_at = date("Y-m-d H:i:s");
+            }
+        else {
+            $this->updated_at = date("Y-m-d H:i:s");
         }
         if(empty($this->rule_name)) {
             $this->rule_name = null;
         }
         return parent::beforeSave($insert);
     }
+    
+    public static function getChildList($exist, $id = null, $app_id = 6)
+    {
+        $list = [];
+        $data = ApplAuthItem::findAll(['fk_app_list' => $app_id]);
+        //$list = ArrayHelper::map($data, 'name', 'name');
+        foreach ($data as $record) {
+            $list[$record->name] = $record->name;
+        }
+        if($id !== null) {
+            if(($found = array_search($id, $list)) !== false) {
+                unset($list[$found]);
+            }
+        }
+        return $list;
+    }
+    public function afterSave($insert, $changedAttributes)  
+    {
+        ApplAuthItemChild::updateChildren($this->name, $this->children);
+        return parent::afterSave($insert, $changedAttributes);
+    }
+    
+    public function afterFind() {
+        $children = ApplAuthItemChild::findAll(['parent' => $this->name]);
+        $this->children = \yii\helpers\ArrayHelper::map($children, 'child', 'child');
+        
+        return parent::afterFind();
+    }
+    
+    public function addChildren($list)
+    {
+        if(is_array($list)) {
+            foreach ($list as $item) { //for($i = 0; $i< count($list); $i++) {
+                if (($model = ApplAuthItemChild::find()->where(['parent' => $this->name, 'child' => $item])->one()) === null) {
+                    $model =  new ApplAuthItemChild(['parent' => $this->name, 'child' => $item]);
+                    $model->save();
+                }
+            }
+        }
+    }
+    
+    public function removeChildren($list)
+    {
+        if(is_array($list)) {
+            foreach ($list as $item) { //for($i = 0; $i< count($list); $i++) {
+                if (($model = ApplAuthItemChild::find()->where(['parent' => $this->name, 'child' => $item])->one()) !== null) {
+                    $model->delete();
+                }
+            }
+        }
+    }
+  
 }

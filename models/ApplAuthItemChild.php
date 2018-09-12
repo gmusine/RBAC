@@ -13,21 +13,19 @@ use Yii;
  * @property ApplAuthItem $parent0
  * @property ApplAuthItem $child0
  */
-class ApplAuthItemChild extends \yii\db\ActiveRecord
-{
+class ApplAuthItemChild extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return '{{%appl_auth_item_child}}';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['parent', 'child'], 'required'],
             [['parent', 'child'], 'string', 'max' => 64],
@@ -40,8 +38,7 @@ class ApplAuthItemChild extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'parent' => Yii::t('app', 'Parent'),
             'child' => Yii::t('app', 'Child'),
@@ -51,16 +48,28 @@ class ApplAuthItemChild extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getParent0()
-    {
+    public function getParent0() {
         return $this->hasOne(ApplAuthItem::className(), ['name' => 'parent']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getChild0()
-    {
+    public function getChild0() {
         return $this->hasOne(ApplAuthItem::className(), ['name' => 'child']);
     }
+
+    public static function updateChildren($parent, $list)
+    {
+        if(($model = ApplAuthItem::findOne($parent)) !== null ) {
+            $current_children = (ApplAuthItemChild::findAll(['parent' => $parent]));
+            if(is_array($list)){
+            $toAdd = array_diff($list, \yii\helpers\ArrayHelper::map($current_children, 'child', 'child'));
+            $toRemove = array_diff(yii\helpers\ArrayHelper::map($current_children, 'child', 'child'), $list);
+            $model->removeChildren($toRemove);
+            $model->addChildren($toAdd);
+            }
+        }
+    }
+
 }

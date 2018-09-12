@@ -8,6 +8,7 @@ use yii\helpers\Html;
 $this->title = Yii::t('app', 'Update Appl Auth Item: ' . $model->name, [
     'nameAttribute' => '' . $model->name,
 ]);
+
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Appl Auth Items'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->name]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');

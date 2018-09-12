@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\ApplAuthAssignment */
 
 $this->title = $model->item_name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Appl Auth Assignments'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Role/ Permission Assignments'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="appl-auth-assignment-view">

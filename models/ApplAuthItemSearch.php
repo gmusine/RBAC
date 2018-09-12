@@ -39,8 +39,11 @@ class ApplAuthItemSearch extends ApplAuthItem
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $type = null)
     {
+        if($type !== null) {
+            $this->type = $type;
+        }
         $query = ApplAuthItem::find();
 
         // add conditions that should always apply here

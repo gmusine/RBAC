@@ -9,6 +9,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use yii\bootstrap\Modal;
 
 AppAsset::register($this);
 ?>
@@ -41,6 +42,7 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
+            //['label' => 'Countries', 'url'=> ['/country/index']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -79,3 +81,26 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+<?php
+yii\bootstrap\Modal::begin([
+    'headerOptions' => ['id' => 'modalHeader'],
+    'id' => 'modal',
+    'size' => 'modal-lg',
+    'closeButton' => [
+        'id'=>'close-button',
+        'class'=>'close',
+        'data-dismiss' =>'modal',
+        ],
+    //keeps from closing modal with esc key or by clicking out of the modal.
+    // user must click cancel or X to close
+    'options' => [
+        'data-backdrop' => 'static', 'keyboard' => true,
+        'tabindex' => false
+        ]
+]);
+echo "<div id='modalContent'><div style='text-align:center; margin-left: 1px !important;'>" . Html::img('@web/images/radio2.gif')  . "</div></div>";
+echo '<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>';
+yii\bootstrap\Modal::end();
+?>
