@@ -31,12 +31,8 @@ $app_id = ($model->isNewRecord) ? 6 : $model->fk_app_list;
             'multiple' => true
         ],
     ]);?>
-
-    <?= $form->field($model, 'rule_name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'data')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'fk_app_list')->dropDownList(ArrayHelper::map(ApplList::find()->all(),'id', 'app_name'),['prompt'=>'Select Application']) ?>
+    
+     <?= $form->field($model, 'fk_app_list')->dropDownList(ArrayHelper::map(ApplList::find()->all(),'id', 'app_name'),['prompt'=>'Select Application']) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

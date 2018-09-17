@@ -44,7 +44,7 @@ class ApplListController extends Controller
                 'dataProvider' => $dataProvider,
             ]));
         } else {
-            return $this->render('index', [
+            return $this->renderAja('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
@@ -60,7 +60,7 @@ class ApplListController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->renderAjax('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -83,7 +83,7 @@ class ApplListController extends Controller
                 'model' => $model,
             ]);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                 'model' => $model,
             ]);
         }
@@ -106,7 +106,7 @@ class ApplListController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->render('update', [
+        return $this->renderAjax('update', [
             'model' => $model,
         ]);
     }
@@ -120,9 +120,11 @@ class ApplListController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+        if($model->delete()=== false) {
+            Yii::$app->session->setFlash('error ', 'Failed to Delete Record!!');
+        }
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**

@@ -40,7 +40,37 @@ $this->params['breadcrumbs'][] = $this->title;
             //'updated_at',
             'fk_app_list',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'header' => 'Actions',
+                'format' => 'raw',
+                'options' => [
+                    'width' => '180px',
+                ],
+                'value' => function($data){
+                    return Html::button('View', [
+                        'value' => Url::to(['appl-auth-item/view', 'id'=>$data->name]),
+                        'type'=>'button', 
+                        'class' => 'btn btn-xs btn-primary showModalButton',
+                        'title' => 'View Application Item'
+                    ]) . ' | ' .
+                    Html::button('Update', [
+                        'value' => Url::to(['appl-auth-item/update', 'id'=>$data->name]),
+                        'type'=>'button', 
+                        'class' => 'btn btn-xs btn-warning showModalButton',
+                        'title' => 'Update Application Item'
+                    ]) . ' | '. 
+                            Html::button('Delete', [
+                        'value' => Url::to(['appl-auth-item', 'id'=>$data->name]),
+                        'type'=>'button', 
+                        'class' => 'btn btn-xs btn-danger showModalButton',
+                        'title' => 'Delete Application Item',
+                        'data' => [
+                            'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                            'method' => 'post',
+                        ],
+                    ]);
+                }
+            ],
         ],
     ]); ?>
 </div>

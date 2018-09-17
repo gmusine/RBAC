@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\ApplAuthItem */
 
-$this->title = Yii::t('app', 'Update Appl Auth Item: ' . $model->name, [
+$this->title = Yii::t('app', 'Update Application Item: ' . $model->name, [
     'nameAttribute' => '' . $model->name,
 ]);
 

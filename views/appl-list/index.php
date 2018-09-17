@@ -9,7 +9,7 @@ use yii\helpers\Url;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Application List');
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="appl-list-index">
 
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?=Html::button('Add a New Application', [
+        <?=Html::button('Add New Application', [
             'value' => Url::to(['appl-list/create']),
             'type'=>'button', 
             'class' => 'btn btn-xs btn-primary showModalButton',
@@ -38,12 +38,43 @@ $this->params['breadcrumbs'][] = $this->title;
             'owner',
             //'url:url',
             //'fk_study',
-            'date_created',
-            'date_modified',
+            //'date_created',
+            //'date_modified',
             //'feature_image',
             //'status',
+            [
+                'header' => 'Actions',
+                'format' => 'raw',
+                'options' => [
+                    'width' => '173px',
+                ],
+                'value' => function($data){
+                    return Html::button('View', [
+                        'value' => Url::to(['appl-list/view', 'id'=>$data->id]),
+                        'type'=>'button', 
+                        'class' => 'btn btn-xs btn-primary showModalButton',
+                        'title' => 'View Application'
+                    ]) . ' | ' .
+                    Html::button('Update', [
+                        'value' => Url::to(['appl-list/update', 'id'=>$data->id]),
+                        'type'=>'button', 
+                        'class' => 'btn btn-xs btn-warning showModalButton',
+                        'title' => 'Update Application'
+                    ]) . ' | '. 
+                            Html::button('Delete', [
+                        'value' => Url::to(['appl-list/delete', 'id'=>$data->id]),
+                        'type'=>'button', 
+                        'class' => 'btn btn-xs btn-danger showModalButton',
+                        'title' => 'Delete Application',
+                        'data' => [
+                            'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                            'method' => 'post',
+                        ],
+                    ]);
+                }
+            ]
 
-            ['class' => 'yii\grid\ActionColumn'],
+            
         ],
     ]); ?>
 </div>

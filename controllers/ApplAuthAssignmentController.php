@@ -44,7 +44,7 @@ class ApplAuthAssignmentController extends Controller
                 'dataProvider' => $dataProvider,
             ]));
         } else {
-            return $this->render('index', [
+            return $this->renderAjax('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
@@ -58,10 +58,10 @@ class ApplAuthAssignmentController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($item_name, $user_id)
+    public function actionView($item_name)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($item_name, $user_id),
+        return $this->renderAjax('view', [
+            'model' => $this->findModel($item_name),
         ]);
     }
 
@@ -85,7 +85,7 @@ class ApplAuthAssignmentController extends Controller
         }
         else
         {
-            return $this->render('create',[
+            return $this->renderAjax('create',[
                 'model'=> $model,
             ]);
         }
@@ -99,15 +99,15 @@ class ApplAuthAssignmentController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($item_name, $user_id)
+    public function actionUpdate($item_name)
     {
-        $model = $this->findModel($item_name, $user_id);
+        $model = $this->findModel($item_name);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'item_name' => $model->item_name, 'user_id' => $model->user_id]);
         }
 
-        return $this->render('update', [
+        return $this->renderAjax('update', [
             'model' => $model,
         ]);
     }
@@ -120,9 +120,9 @@ class ApplAuthAssignmentController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($item_name, $user_id)
+    public function actionDelete($item_name)
     {
-        $this->findModel($item_name, $user_id)->delete();
+        $this->findModel($item_name)->delete();
 
         return $this->redirect(['index']);
     }
@@ -135,9 +135,9 @@ class ApplAuthAssignmentController extends Controller
      * @return ApplAuthAssignment the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($item_name, $user_id)
+    protected function findModel($item_name)
     {
-        if (($model = ApplAuthAssignment::findOne(['item_name' => $item_name, 'user_id' => $user_id])) !== null) {
+        if (($model = ApplAuthAssignment::findOne(['item_name' => $item_name])) !== null) {
             return $model;
         }
 

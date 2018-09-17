@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use Yii;
 use app\models\ApplAuthItem;
-use app\models\ApplAuthItemChild;
 use app\models\ApplAuthItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -60,7 +59,7 @@ class ApplAuthItemController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->renderAjax('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -79,7 +78,6 @@ class ApplAuthItemController extends Controller
         
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //return $this->redirect(['/appl-auth-item/index', 'id' => $model->name]);
             return $this->redirect(Yii::$app->request->referrer);
         }
 
@@ -109,7 +107,7 @@ class ApplAuthItemController extends Controller
             return $this->redirect(['view', 'id' => $model->name]);
         }
 
-        return $this->render('update', [
+        return $this->renderAjax('update', [
             'model' => $model,
         ]);
     }
