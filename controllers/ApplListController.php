@@ -103,8 +103,12 @@ class ApplListController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(Yii::$app->reque);
         }
+        $session= Yii::$app->session;
+        $session->setFlash('Success', 'Application updated successfully');
+        echo $session->getFlash('Success');
+        $result= $session->hasFlash('Success');
 
         return $this->renderAjax('update', [
             'model' => $model,

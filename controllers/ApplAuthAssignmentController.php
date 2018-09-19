@@ -104,7 +104,7 @@ class ApplAuthAssignmentController extends Controller
         $model = $this->findModel($item_name);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'item_name' => $model->item_name, 'user_id' => $model->user_id]);
+            return $this->redirect(Yii::$app->request->referrer);
         }
 
         return $this->renderAjax('update', [
